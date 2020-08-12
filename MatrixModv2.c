@@ -2,7 +2,6 @@
 #include <stdio.h>
 typedef struct Node
 {
-	int id;
     int value;
     struct Node* nextRows;
     struct Node* nextColumns;
@@ -28,13 +27,11 @@ void CreateMatrix(node_t* head, int rows, int columns)
     printf("insert numbers \n");
     for (int i = 0; i != rows; i++)
     {
-		pointerRows->id = i;
         pointerRows->value;
         scanf("%d", &pointerRows->value);
         for (int j = 0; j != columns - 1; j++)
         {
             pointerColumns->nextColumns = (node_t*)malloc(sizeof(node_t));
-			pointerColumns->nextColumns->id = i;
             pointerColumns->nextColumns->value;
             scanf("%d", &pointerColumns->nextColumns->value);
             pointerColumns->nextColumns->nextColumns = NULL;
