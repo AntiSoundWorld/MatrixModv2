@@ -33,9 +33,9 @@ void CreateMatrix(int rows, int columns)
             pointerColumns->nextColumns->nextColumns = NULL;
             pointerColumns = pointerColumns->nextColumns;
         }
-        pointerRows->nextRows = (node_t*)malloc(sizeof(node_t));
-        pointerRows->nextRows->nextRows = NULL;
-        pointerRows = pointerRows->nextRows;
+		pointerRows->nextRows = (node_t*)malloc(sizeof(node_t));
+		pointerRows->nextRows->nextRows = NULL;
+		pointerRows = pointerRows->nextRows;
 		pointerColumns = pointerRows;
     }
     ShowMatrix(head);
