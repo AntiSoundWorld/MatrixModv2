@@ -5,7 +5,6 @@ typedef struct Node
     int value;
     struct Node* nextRows;
     struct Node* nextColumns;
-
 }node_t;
 
 void CreateMatrix(int rows, int columns);
