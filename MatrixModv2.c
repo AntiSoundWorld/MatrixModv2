@@ -77,7 +77,7 @@ int main()
 	scanf("%d", &quantityOfRows);
 
 	int quantityOfСolumns;
-	printf("Enter quantityOfСolumns \n");
+	printf("Enter quantityOfColumns \n");
 	scanf("%d", &quantityOfСolumns);
 
 	CreateMatrix(head, quantityOfRows, quantityOfСolumns);
