@@ -70,18 +70,18 @@ void ShowMatrix(node_t * head,int columns)
 }
 int main()
 {
-	node_t* head = NULL;
-	head = (node_t*)malloc(sizeof(node_t));
+		node_t* head = NULL;
+		head = (node_t*)malloc(sizeof(node_t));
 
-    int quantityOfRows;
-    printf("Enter quantityOfRows \n");
-    scanf("%d", &quantityOfRows);
+		int quantityOfRows;
+		printf("Enter quantityOfRows \n");
+		scanf("%d", &quantityOfRows);
 
-    int quantityOfСolumns;
-    printf("Enter quantityOfСolumns \n");
-    scanf("%d", &quantityOfСolumns);
+		int quantityOfСolumns;
+		printf("Enter quantityOfСolumns \n");
+		scanf("%d", &quantityOfСolumns);
 
-    CreateMatrix(head, quantityOfRows, quantityOfСolumns);
-	ShowMatrix(head, quantityOfСolumns);
+		CreateMatrix(head, quantityOfRows, quantityOfСolumns);
+		ShowMatrix(head, quantityOfСolumns);
 }
 
