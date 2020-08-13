@@ -58,7 +58,6 @@ void ShowMatrix(node_t * head,int columns)
 		
 		while(i != columns -1)
 		{
-			
 			printf("%d ", pointerColumns->nextColumns->value);
 			pointerColumns = pointerColumns->nextColumns;
 			i++;
