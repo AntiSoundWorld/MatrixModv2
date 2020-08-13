@@ -76,11 +76,11 @@ int main()
 	printf("Enter quantityOfRows \n");
 	scanf("%d", &quantityOfRows);
 
-	int quantityOfСolumns;
+	int quantityOfColumns;
 	printf("Enter quantityOfColumns \n");
-	scanf("%d", &quantityOfСolumns);
+	scanf("%d", &quantityOfColumns);
 
-	CreateMatrix(head, quantityOfRows, quantityOfСolumns);
-	ShowMatrix(head, quantityOfСolumns);
+	CreateMatrix(head, quantityOfRows, quantityOfColumns);
+	ShowMatrix(head, quantityOfColumns);
 }
 
