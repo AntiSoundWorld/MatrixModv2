@@ -6,7 +6,7 @@ typedef struct Node
 	int value;
 	struct Node* down;
 	struct Node* right;
-	struct Node* back;
+	struct Node* left;
 	struct Node* up;
 }node_t;
 
@@ -25,7 +25,7 @@ void CreateMatrix(node_t* head, int rows, int columns)
 
 	head->down = NULL;
 	head->right = NULL;
-	head->back = NULL;
+	head->left = NULL;
 	head->up = NULL;
 
 	node_t* pointer = head;
@@ -40,7 +40,7 @@ void CreateMatrix(node_t* head, int rows, int columns)
 
 		pointer->value;
 		scanf("%d", &pointer->value);
-		pointerRight->back = head;
+		pointerRight->left = head;
 
 		for (int j = 1; j != columns ; j++)
 		{
@@ -75,8 +75,8 @@ void LinkAdresses(node_t* head)
 			pointer2->up = pointer;
 			if (pointer->right != NULL)
 			{
-				pointer->right->back = pointer;
-				pointer2->right->back = pointer2;
+				pointer->right->left = pointer;
+				pointer2->right->left = pointer2;
 			}
 			pointer = pointer->right; 
 			pointer2 = pointer2->right;
@@ -173,11 +173,11 @@ void MoveSnake(node_t* head, int rows, int columns )
 			{
 				return;
 			}
-			if (center->back == NULL)
+			if (center->left == NULL)
 			{
 				break;
 			}
-			center = center->back;
+			center = center->left;
 			printf("[%d]", center->value);
 			step++;
 		}
@@ -205,16 +205,16 @@ int main()
 	node_t* head = NULL;
 	head = (node_t*)malloc(sizeof(node_t));
 
-	int quantityOfRows;
-	printf("Enter quantityOfRows \n");
-	scanf("%d", &quantityOfRows);
+	int Rows;
+	printf("Enter Rows \n");
+	scanf("%d", &Rows);
 
-	int quantityOfСolumns;
-	printf("Enter quantityOfColumns \n");
-	scanf("%d", &quantityOfСolumns);
+	int Columns;
+	printf("Enter Columns \n");
+	scanf("%d", &Columns);
 
-	CreateMatrix(head, quantityOfRows, quantityOfСolumns);
+	CreateMatrix(head, Rows, Columns);
 	ShowMatrix(head);
-	MoveSnake(head, quantityOfRows, quantityOfСolumns);
+	MoveSnake(head, Rows, Columns);
 }
 
