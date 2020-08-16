@@ -2,69 +2,202 @@
 #include <stdio.h>
 typedef struct Node
 {
-    int value;
-    struct Node* nextRows;
-    struct Node* nextColumns;
+	int id;
+	int value;
+	struct Node* down;
+	struct Node* right;
+	struct Node* back;
+	struct Node* up;
 }node_t;
 
-void CreateMatrix(node_t*  head, int rows, int columns);
-void ShowMatrix(node_t* head, int columns);
+void CreateMatrix(node_t* head, int rows, int columns);
+void ShowMatrix(node_t* head);
+void LinkAdresses(node_t* head);
+void MoveSnake(node_t* head,int rows, int columns);
 
 void CreateMatrix(node_t* head, int rows, int columns)
 {
-	if(rows == 0 || columns == 0)
+	if (rows == 0 || columns == 0)
 	{
 		printf("Ne Baluysya");
 		return;
 	}
 
-    head->nextRows = NULL;
-    head->nextColumns = NULL;
-	
-    node_t* pointerRows = head;
-    node_t* pointerColumns = pointerRows;
+	head->down = NULL;
+	head->right = NULL;
+	head->back = NULL;
+	head->up = NULL;
 
-    printf("insert numbers \n");
+	node_t* pointer = head;
+	node_t* pointerRight = pointer;
+	int id = 0;
+
+	printf("insert numbers \n");
 	for (int i = 0; i != rows; i++)
 	{
-		pointerRows->value;
-		scanf("%d", &pointerRows->value);
-		for (int j = 0; j != columns - 1; j++)
+		pointer->id = id;
+		id++;
+
+		pointer->value;
+		scanf("%d", &pointer->value);
+		pointerRight->back = head;
+
+		for (int j = 1; j != columns ; j++)
 		{
-			pointerColumns->nextColumns = (node_t*)malloc(sizeof(node_t));
-			pointerColumns->nextColumns->value;
-			scanf("%d", &pointerColumns->nextColumns->value);
-			pointerColumns->nextColumns->nextColumns = NULL;
-			pointerColumns = pointerColumns->nextColumns;
+			pointerRight->right = (node_t*)malloc(sizeof(node_t));
+			pointerRight->right->id = id;
+			pointerRight->right->value;
+			scanf("%d", &pointerRight->right->value);
+			pointerRight->right->right = NULL;
+			pointerRight = pointerRight->right;
+			id++;
 		}
-		pointerRows->nextRows = (node_t*)malloc(sizeof(node_t));
-		pointerRows->nextRows->nextRows = NULL;
-		pointerRows = pointerRows->nextRows;
-		pointerColumns = pointerRows;
+		pointer->down = (node_t*)malloc(sizeof(node_t));
+		pointer->down->down = NULL;
+		pointer = pointer->down;
+		pointerRight = pointer;
+	}
+	LinkAdresses(head);
+}
+
+void LinkAdresses(node_t* head)
+{
+	node_t* pointerDown = head;
+	node_t* pointer = pointerDown;
+	node_t* pointer2 = pointerDown->down;
+	int i = 0;
+
+	while (pointerDown->down->down != NULL)
+	{
+		while (pointer != NULL)
+		{
+			pointer->down = pointer2;
+			pointer2->up = pointer;
+			if (pointer->right != NULL)
+			{
+				pointer->right->back = pointer;
+				pointer2->right->back = pointer2;
+			}
+			pointer = pointer->right; 
+			pointer2 = pointer2->right;
+		}
+		pointerDown = pointerDown->down;
+		pointer = pointerDown;
+		pointer2 = pointer->down;
 	}
 }
 
-void ShowMatrix(node_t * head,int columns)
+void ShowMatrix(node_t* head)
 {
-	node_t * pointerRows = head;
-	node_t * pointerColumns = pointerRows;
-	
-	int j = 0;
-	while(pointerRows->nextRows != NULL)
+	node_t* pointer = head;
+	node_t* pointer2 = pointer;
+	while (pointer->down != NULL)
 	{
-		int i = j;
-		printf("%d ", pointerRows->value);
-		pointerRows = pointerRows->nextRows;
-		
-		while(i != columns -1)
+		while (pointer2 != NULL)
 		{
-			printf("%d ", pointerColumns->nextColumns->value);
-			pointerColumns = pointerColumns->nextColumns;
-			i++;
+			printf("%d",pointer2->value);
+			pointer2 = pointer2->right;
 		}
+		pointer = pointer->down;
+		pointer2 = pointer;
 		printf("\n");
-		pointerColumns = pointerRows;
-		j++;
+	}
+}
+
+void MoveSnake(node_t* head, int rows, int columns )
+{
+	node_t* pointer = head;
+	node_t* pointer2 = pointer;
+	node_t* center = pointer2;
+	int intCenter = rows * columns / 2 ;
+
+	while (pointer->down != NULL)
+	{
+		while (pointer2!= NULL)
+		{
+			if (pointer2->id == intCenter)
+			{
+				center = pointer2;
+			}
+			pointer2 = pointer2->right;
+		}
+		pointer = pointer->down;
+		pointer2 = pointer;
+		printf("\n");
+	}
+	int step = 1;
+	int right = 1;
+	int down = 1;
+	int left = 2;
+	int up = 2;
+	int fullSteps = rows * columns;
+	
+
+	printf("[%d]", center->value);
+	while (1)
+	{
+		for (int i = 0; i < right; i++)
+		{
+			if (step == fullSteps )
+			{
+				return;
+			}
+			if (center->right == NULL)
+			{
+				break;
+			}
+			center = center->right;
+			printf("[%d]", center->value);
+			step++;
+		}
+		right = right + 2;
+		for (int i = 0; i < down; i++)
+		{
+			if (step == fullSteps)
+			{
+				return;
+			}
+			if (center->down == NULL)
+			{
+				break;
+			}
+			center = center->down;
+			printf("[%d]", center->value);
+			step++;
+		}
+		down = down + 2;
+		
+		for (int i = 0; i < left; i++)
+		{
+			if (step == fullSteps)
+			{
+				return;
+			}
+			if (center->back == NULL)
+			{
+				break;
+			}
+			center = center->back;
+			printf("[%d]", center->value);
+			step++;
+		}
+		left = left + 2;
+
+		for (int i = 0; i < up; i++)
+		{
+			if (step == fullSteps)
+			{
+				return;
+			}
+			if (center->up == NULL)
+			{
+				break;
+			}
+			center = center->up;
+			printf("[%d]", center->value);
+			step++;
+		}
+		up = up + 2;
 	}
 }
 int main()
@@ -81,6 +214,7 @@ int main()
 	scanf("%d", &quantityOfСolumns);
 
 	CreateMatrix(head, quantityOfRows, quantityOfСolumns);
-	ShowMatrix(head, quantityOfСolumns);
+	ShowMatrix(head);
+	MoveSnake(head, quantityOfRows, quantityOfСolumns);
 }
 
