@@ -151,6 +151,7 @@ void MoveSnake(node_t* head, int rows, int columns )
 			step++;
 		}
 		right = right + 2;
+		
 		for (int i = 0; i < down; i++)
 		{
 			if (step == fullSteps)
@@ -202,28 +203,19 @@ void MoveSnake(node_t* head, int rows, int columns )
 }
 int main()
 {
-	node_t* head = NULL;
-	head = (node_t*)malloc(sizeof(node_t));
-
 	int Rows;
 	printf("Enter Rows \n");
 	scanf("%d", &Rows);
 
-<<<<<<< HEAD
 	int Columns;
 	printf("Enter Columns \n");
 	scanf("%d", &Columns);
-
+	
+	node_t* head = NULL;
+	head = (node_t*)malloc(sizeof(node_t));
+	
 	CreateMatrix(head, Rows, Columns);
 	ShowMatrix(head);
 	MoveSnake(head, Rows, Columns);
-=======
-	int quantityOfColumns;
-	printf("Enter quantityOfColumns \n");
-	scanf("%d", &quantityOfColumns);
-
-	CreateMatrix(head, quantityOfRows, quantityOfColumns);
-	ShowMatrix(head, quantityOfColumns);
->>>>>>> bcbad87c5b0a4b4efbd2f8c7552d6e73e49f9ea2
 }
 
