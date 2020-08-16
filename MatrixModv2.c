@@ -209,6 +209,7 @@ int main()
 	printf("Enter Rows \n");
 	scanf("%d", &Rows);
 
+<<<<<<< HEAD
 	int Columns;
 	printf("Enter Columns \n");
 	scanf("%d", &Columns);
@@ -216,5 +217,13 @@ int main()
 	CreateMatrix(head, Rows, Columns);
 	ShowMatrix(head);
 	MoveSnake(head, Rows, Columns);
+=======
+	int quantityOfColumns;
+	printf("Enter quantityOfColumns \n");
+	scanf("%d", &quantityOfColumns);
+
+	CreateMatrix(head, quantityOfRows, quantityOfColumns);
+	ShowMatrix(head, quantityOfColumns);
+>>>>>>> bcbad87c5b0a4b4efbd2f8c7552d6e73e49f9ea2
 }
 
