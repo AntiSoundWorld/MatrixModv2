@@ -1,221 +1,253 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h> 
+
 typedef struct Node
 {
-	int id;
-	int value;
-	struct Node* down;
-	struct Node* right;
-	struct Node* left;
-	struct Node* up;
+    int id;
+    int value;
+    bool point;
+    struct Node* right;
+    struct Node* down;
+    struct Node* left;
+    struct Node* up;
 }node_t;
-
-void CreateMatrix(node_t* head, int rows, int columns);
-void ShowMatrix(node_t* head);
-void LinkAdresses(node_t* head);
-void MoveSnake(node_t* head,int rows, int columns);
 
 void CreateMatrix(node_t* head, int rows, int columns)
 {
-	if (rows == 0 || columns == 0)
+	if (rows == 0)
 	{
 		printf("Ne Baluysya");
 		return;
 	}
+    node_t* pointerRows = head;
+    node_t* pointerColumns = pointerRows;
 
-	head->down = NULL;
-	head->right = NULL;
-	head->left = NULL;
-	head->up = NULL;
-
-	node_t* pointer = head;
-	node_t* pointerRight = pointer;
-	int id = 0;
-
-	printf("insert numbers \n");
-	for (int i = 0; i != rows; i++)
-	{
-		pointer->id = id;
-		id++;
-
-		pointer->value;
-		scanf("%d", &pointer->value);
-		pointerRight->left = head;
-
-		for (int j = 1; j != columns ; j++)
+    for (int i = 0; i < rows  ; i++)
+    {
+		pointerRows->point = false;
+		
+		pointerRows->value;
+		scanf("%d",&pointerRows->value);
+		
+		pointerRows->right = NULL;
+		pointerRows->down = NULL;
+		pointerRows->left = NULL;
+		pointerRows->up = NULL;
+		
+        for (int j = 0; j < columns - 1; j++)
+        {
+			pointerColumns->right = (node_t*)malloc(sizeof(node_t));
+			
+			pointerColumns->right->value;
+			
+			scanf("%d",&pointerColumns->right->value);
+			pointerColumns->right->point = false;
+			
+			pointerColumns->right->right = NULL;
+			pointerColumns->right->down = NULL;
+			pointerColumns->right->left = NULL;
+			pointerColumns->right->up = NULL;
+			
+			pointerColumns = pointerColumns->right;
+        }
+		
+		pointerRows->down = (node_t*)malloc(sizeof(node_t));
+		
+		pointerRows = pointerRows->down;
+		pointerColumns = pointerRows;
+		
+		if(i == rows - 1)
 		{
-			pointerRight->right = (node_t*)malloc(sizeof(node_t));
-			pointerRight->right->id = id;
-			pointerRight->right->value;
-			scanf("%d", &pointerRight->right->value);
-			pointerRight->right->right = NULL;
-			pointerRight = pointerRight->right;
-			id++;
+			pointerRows->down = NULL;
 		}
-		pointer->down = (node_t*)malloc(sizeof(node_t));
-		pointer->down->down = NULL;
-		pointer = pointer->down;
-		pointerRight = pointer;
-	}
-	LinkAdresses(head);
+    }
 }
-
 void LinkAdresses(node_t* head)
 {
-	node_t* pointerDown = head;
-	node_t* pointer = pointerDown;
-	node_t* pointer2 = pointerDown->down;
-	int i = 0;
-
-	while (pointerDown->down->down != NULL)
-	{
-		while (pointer != NULL)
-		{
-			pointer->down = pointer2;
-			pointer2->up = pointer;
-			if (pointer->right != NULL)
-			{
-				pointer->right->left = pointer;
-				pointer2->right->left = pointer2;
-			}
-			pointer = pointer->right; 
-			pointer2 = pointer2->right;
-		}
-		pointerDown = pointerDown->down;
-		pointer = pointerDown;
-		pointer2 = pointer->down;
-	}
-}
-
-void ShowMatrix(node_t* head)
-{
-	node_t* pointer = head;
-	node_t* pointer2 = pointer;
-	while (pointer->down != NULL)
-	{
-		while (pointer2 != NULL)
-		{
-			printf("%d",pointer2->value);
-			pointer2 = pointer2->right;
-		}
-		pointer = pointer->down;
-		pointer2 = pointer;
-		printf("\n");
-	}
-}
-
-void MoveSnake(node_t* head, int rows, int columns )
-{
-	node_t* pointer = head;
-	node_t* pointer2 = pointer;
-	node_t* center = pointer2;
-	int intCenter = rows * columns / 2 ;
-
-	while (pointer->down != NULL)
-	{
-		while (pointer2!= NULL)
-		{
-			if (pointer2->id == intCenter)
-			{
-				center = pointer2;
-			}
-			pointer2 = pointer2->right;
-		}
-		pointer = pointer->down;
-		pointer2 = pointer;
-		printf("\n");
-	}
-	int step = 1;
-	int right = 1;
-	int down = 1;
-	int left = 2;
-	int up = 2;
-	int fullSteps = rows * columns;
+    node_t* pointerRows = head;
+    node_t* pointerRows2 = pointerRows->down;
+    node_t* pointerColumns = pointerRows;
+    node_t* pointerColumns2 = pointerRows2;
 	
-
-	printf("[%d]", center->value);
-	while (1)
+    while(pointerRows2->down != NULL)
 	{
-		for (int i = 0; i < right; i++)
+		while(pointerColumns->right != NULL)
 		{
-			if (step == fullSteps )
-			{
-				return;
-			}
-			if (center->right == NULL)
-			{
-				break;
-			}
-			center = center->right;
-			printf("[%d]", center->value);
-			step++;
+			pointerColumns->right->left = pointerColumns;
+			pointerColumns2->right->left = pointerColumns2;
+			
+			pointerColumns->right->down = pointerColumns2->right;
+			pointerColumns2->right->up = pointerColumns->right;
+			
+			pointerColumns = pointerColumns->right;
+			pointerColumns2 = pointerColumns2->right;
 		}
-		right = right + 2;
+		pointerRows2->up = pointerRows;
 		
-		for (int i = 0; i < down; i++)
-		{
-			if (step == fullSteps)
-			{
-				return;
-			}
-			if (center->down == NULL)
-			{
-				break;
-			}
-			center = center->down;
-			printf("[%d]", center->value);
-			step++;
-		}
-		down = down + 2;
+		pointerRows2 = pointerRows2->down;
+		pointerRows = pointerRows->down;
 		
-		for (int i = 0; i < left; i++)
-		{
-			if (step == fullSteps)
-			{
-				return;
-			}
-			if (center->left == NULL)
-			{
-				break;
-			}
-			center = center->left;
-			printf("[%d]", center->value);
-			step++;
-		}
-		left = left + 2;
-
-		for (int i = 0; i < up; i++)
-		{
-			if (step == fullSteps)
-			{
-				return;
-			}
-			if (center->up == NULL)
-			{
-				break;
-			}
-			center = center->up;
-			printf("[%d]", center->value);
-			step++;
-		}
-		up = up + 2;
+		pointerColumns = pointerRows;
+		pointerColumns2 = pointerRows2;
 	}
 }
+void ShowMatrix(node_t * head)
+{
+	node_t* pointerRows = head;
+    node_t* pointerColumns = pointerRows;
+	
+	printf("Your matrix \n");
+	
+	while(pointerRows->down != NULL)
+	{
+		while(pointerColumns != NULL)
+		{
+			printf("[%d]", pointerColumns->value);
+			pointerColumns = pointerColumns->right;
+		}
+		pointerRows = pointerRows->down;
+		pointerColumns = pointerRows;
+		printf("\n");
+	}
+	printf("---------------------------------------- \n");
+}
+bool ParityDefinition(int rows, int columns)
+{
+	bool isMatrixEven = false;
+	
+    if (rows == 2 && columns == 2)
+    {
+        isMatrixEven = true;
+    }
+    if (rows == 3 && columns == 3)
+    {
+        isMatrixEven = false;
+    }
+    if (rows == 4 && columns == 4)
+    {
+       isMatrixEven = true;
+    }
+    if (rows == 5 && columns == 5)
+    {
+        isMatrixEven = false;
+    }
+    if (rows == 6 && columns == 6)
+    {
+       isMatrixEven = true;
+    }
+    if (rows == 7 && columns == 7)
+    {
+        isMatrixEven = false;
+    }
+    if (rows == 8 && columns == 8)
+    {
+        isMatrixEven = true;
+    }
+	return isMatrixEven;
+}
+
+node_t* FindStartItem(node_t* head, bool ParityDefinition, int rows, int columns)
+{
+    int editRows = 0;
+    int editColumns = 0;
+
+    node_t* pointer = head;
+
+    if (ParityDefinition == true)
+    {
+        editRows = rows;
+        editColumns = columns;
+
+        for (int i = 1; i < editRows / 2; i++)
+        {
+            pointer = pointer->right;
+            pointer = pointer->down;
+        }
+    }
+    if (ParityDefinition == false)
+    {
+        editRows = rows - 1;
+        editRows = columns - 1;
+
+        for (int i = 1; i < editRows / 2 + 1; i++)
+        {
+            pointer = pointer->right;
+            pointer = pointer->down;
+        }
+    }
+	pointer->point = true;
+    return pointer;
+}
+
+void LounchSnake(node_t* startItem)
+{
+    node_t* pointer = startItem;
+	printf("Your Snake \n");
+	pointer->point = true;
+    printf("[%d]", pointer->value);
+    pointer = pointer->right;
+	
+	while(true)
+	{
+		while(pointer->left->point == true)
+		{
+			pointer->point = true;
+			printf("[%d]",pointer->value);
+			pointer = pointer->down;
+		}
+		
+		while(pointer->up->point == true)
+		{
+			pointer->point = true;
+			printf("[%d]",pointer->value);
+			if(pointer->left == NULL)
+			{
+				return;
+			}
+			pointer = pointer->left;
+		}
+		
+		while(pointer->right->point == true)
+		{
+			pointer->point = true;
+			printf("[%d]",pointer->value);
+			pointer = pointer->up;
+		}
+		
+		while(pointer->down->point == true)
+		{
+			pointer->point = true;
+			printf("[%d]",pointer->value);
+			if(pointer->right == NULL)
+			{
+				return;
+			}
+			pointer = pointer->right;
+		}
+	}
+}
+
 int main()
 {
-	int Rows;
-	printf("Enter Rows \n");
-	scanf("%d", &Rows);
+    printf("Enter quantity of rows \n");
+    int rows;
+    scanf("%d", &rows);
 
-	int Columns;
-	printf("Enter Columns \n");
-	scanf("%d", &Columns);
+    printf("Enter quantity of columns \n");
+    int columns;
+    scanf("%d", &columns);
+	
+	printf("Enter values \n");
 	
 	node_t* head = NULL;
 	head = (node_t*)malloc(sizeof(node_t));
-	
-	CreateMatrix(head, Rows, Columns);
+	CreateMatrix(head, rows, columns);
+  
 	ShowMatrix(head);
-	MoveSnake(head, Rows, Columns);
+	LinkAdresses(head);
+
+	LounchSnake(FindStartItem(head, ParityDefinition(rows, columns), rows, columns));
+	return 0;
 }
 
