@@ -6,7 +6,7 @@ typedef struct Node
 {
     int id;
     int value;
-    bool point;
+    bool isVisited;
     struct Node* right;
     struct Node* down;
     struct Node* left;
@@ -15,9 +15,9 @@ typedef struct Node
 
 void CreateMatrix(node_t* head, int rows, int columns)
 {
-	if (rows == 0)
+	if (rows == 0 || columns != rows)
 	{
-		printf("Ne Baluysya");
+		printf("Ne Baluysya /n");
 		return;
 	}
 	node_t* pointerRows = head;
@@ -25,7 +25,7 @@ void CreateMatrix(node_t* head, int rows, int columns)
 
 	for (int i = 0; i < rows  ; i++)
 	{
-		pointerRows->point = false;
+		pointerRows->isVisited = false;
 
 		pointerRows->value;
 		scanf("%d",&pointerRows->value);
@@ -42,7 +42,7 @@ void CreateMatrix(node_t* head, int rows, int columns)
 			pointerColumns->right->value;
 
 			scanf("%d",&pointerColumns->right->value);
-			pointerColumns->right->point = false;
+			pointerColumns->right->isVisited = false;
 
 			pointerColumns->right->right = NULL;
 			pointerColumns->right->down = NULL;
@@ -112,7 +112,7 @@ void ShowMatrix(node_t * head)
 	}
 	printf("---------------------------------------- \n");
 }
-bool ParityDefinition(int rows, int columns)
+bool IsParityDefinition(int rows, int columns)
 {
 	bool isMatrixEven = false;
 
@@ -147,14 +147,14 @@ bool ParityDefinition(int rows, int columns)
 	return isMatrixEven;
 }
 
-node_t* FindStartItem(node_t* head, bool ParityDefinition, int rows, int columns)
+node_t* FindStartItem(node_t* head, bool IsParityDefinition, int rows, int columns)
 {
     int editRows = 0;
     int editColumns = 0;
 
     node_t* pointer = head;
 
-    if (ParityDefinition == true)
+    if (IsParityDefinition == true)
     {
         editRows = rows;
         editColumns = columns;
@@ -165,7 +165,7 @@ node_t* FindStartItem(node_t* head, bool ParityDefinition, int rows, int columns
             pointer = pointer->down;
         }
     }
-    if (ParityDefinition == false)
+    if (IsParityDefinition == false)
     {
         editRows = rows - 1;
         editRows = columns - 1;
@@ -176,7 +176,7 @@ node_t* FindStartItem(node_t* head, bool ParityDefinition, int rows, int columns
             pointer = pointer->down;
         }
     }
-	pointer->point = true;
+	pointer->isVisited = true;
     return pointer;
 }
 
@@ -184,22 +184,22 @@ void LounchSnake(node_t* startItem)
 {
 	node_t* pointer = startItem;
 	printf("Your Snake \n");
-	pointer->point = true;
+	pointer->isVisited = true;
 	printf("[%d]", pointer->value);
 	pointer = pointer->right;
 	
 	while(true)
 	{
-		while(pointer->left->point == true)
+		while(pointer->left->isVisited)
 		{
-			pointer->point = true;
+			pointer->isVisited = true;
 			printf("[%d]",pointer->value);
 			pointer = pointer->down;
 		}
 		
-		while(pointer->up->point == true)
+		while(pointer->up->isVisited)
 		{
-			pointer->point = true;
+			pointer->isVisited = true;
 			printf("[%d]",pointer->value);
 			if(pointer->left == NULL)
 			{
@@ -208,16 +208,16 @@ void LounchSnake(node_t* startItem)
 			pointer = pointer->left;
 		}
 		
-		while(pointer->right->point == true)
+		while(pointer->right->isVisited)
 		{
-			pointer->point = true;
+			pointer->isVisited = true;
 			printf("[%d]",pointer->value);
 			pointer = pointer->up;
 		}
 		
-		while(pointer->down->point == true)
+		while(pointer->down->isVisited)
 		{
-			pointer->point = true;
+			pointer->isVisited = true;
 			printf("[%d]",pointer->value);
 			if(pointer->right == NULL)
 			{
@@ -247,7 +247,7 @@ int main()
 	ShowMatrix(head);
 	LinkAdresses(head);
 
-	LounchSnake(FindStartItem(head, ParityDefinition(rows, columns), rows, columns));
+	LounchSnake(FindStartItem(head, IsParityDefinition(rows, columns), rows, columns));
 	return 0;
 }
 
