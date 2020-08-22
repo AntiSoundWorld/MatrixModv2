@@ -230,20 +230,20 @@ void LounchSnake(node_t* startItem)
 
 int main()
 {
-    printf("Enter quantity of rows \n");
-    int rows;
-    scanf("%d", &rows);
+	printf("Enter quantity of rows \n");
+	int rows;
+	scanf("%d", &rows);
 
-    printf("Enter quantity of columns \n");
-    int columns;
-    scanf("%d", &columns);
-	
+	printf("Enter quantity of columns \n");
+	int columns;
+	scanf("%d", &columns);
+
 	printf("Enter values \n");
-	
+
 	node_t* head = NULL;
 	head = (node_t*)malloc(sizeof(node_t));
 	CreateMatrix(head, rows, columns);
-  
+
 	ShowMatrix(head);
 	LinkAdresses(head);
 
